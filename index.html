@@ -44,6 +44,20 @@ a:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:4
 @media(max-width:760px){header{gap:10px}nav a{padding:6px 8px}.section{padding:43px 0}.hero:after{width:240px;height:240px;right:-130px;bottom:-145px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
 
+
+/* Presentation team footer */
+.team-footer{max-width:900px;margin:24px auto 0;padding-top:22px;border-top:1px solid #ffffff2b}
+.team-footer h3{margin:0 0 15px;color:#fff;font-size:1rem;letter-spacing:.12em;text-transform:uppercase}
+.team-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:650px;margin:0 auto}
+.team-member{padding:11px 14px;border:1px solid #ffffff24;border-radius:10px;background:#ffffff0b}
+.team-member strong,.team-member span{display:block}
+.team-member strong{color:#fff;font-size:.96rem}
+.team-member span{color:#c4d1df;font-size:.78rem;letter-spacing:.04em}
+.team-member.developer{border:1px solid var(--gold);background:linear-gradient(120deg,#ffffff16,#f3b54420);box-shadow:0 0 0 1px #f3b54422}
+.team-member.developer strong{font-family:Georgia,'Times New Roman',serif;font-size:1.2rem;letter-spacing:.04em;color:var(--gold);font-style:italic}
+.team-member.developer span{color:#f5d99f;font-weight:800;text-transform:uppercase;letter-spacing:.12em}
+@media(max-width:500px){.team-list{grid-template-columns:1fr}.team-member.developer strong{font-size:1.25rem}}
+
 </style>
 </head>
 <body>
@@ -258,5 +272,5 @@ a:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:4
   </div>
 </section>
 <section class="section" id="sources"><div class="eyebrow">References</div><h2>Sources used</h2><p class="lead">Check these sources before presenting and include them on your reference slide.</p><ol><li><a href="https://nedco.gov.tt/fi/about-nedco" target="_blank" rel="noopener">NEDCO – About NEDCO</a> (background, establishment and mandate).</li><li><a href="https://nedco.gov.tt/fi/financing-loans" target="_blank" rel="noopener">NEDCO – Financing / Loans</a> (financing and eligibility).</li><li><a href="https://nedco.gov.tt/web/nedco/contact-us" target="_blank" rel="noopener">NEDCO – Contact Us</a> (branches and contact details).</li><li><a href="https://ttconnect.gov.tt/nedco/" target="_blank" rel="noopener">TTconnect – NEDCO</a> (government service overview).</li><li><a href="https://sme.finance.gov.tt/support-services/?agency=All&type=Non-Financial" target="_blank" rel="noopener">Ministry of Finance – SME Support Services</a> (SME support information).</li></ol></section>
-</main><footer><strong>NEDCO | CAPE Entrepreneurship</strong><br>Supporting, sustaining and developing micro and small enterprises.<br><span class="small">Group presentation website • Trinidad and Tobago</span></footer>
+</main><footer><strong>NEDCO | CAPE Entrepreneurship</strong><br>Supporting, sustaining and developing micro and small enterprises.<br><span class="small">Group presentation website • Trinidad and Tobago</span><div class="team-footer"><h3>Presentation Team</h3><div class="team-list"><div class="team-member developer"><strong>Shamar Bogle</strong><span>Website Developer</span></div><div class="team-member"><strong>Lerone Bernard</strong><span>Information Provider / Group Member</span></div><div class="team-member"><strong>Melloney Stevens</strong><span>Information Provider / Group Member</span></div><div class="team-member"><strong>Wayde Lindsay</strong><span>Information Provider / Group Member</span></div><div class="team-member"><strong>Tory-Lee</strong><span>Information Provider / Group Member</span></div></div></div></footer>
 </body></html>
