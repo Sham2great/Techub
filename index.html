@@ -71,6 +71,28 @@ a:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:4
 @media(max-width:500px){.fullscreen-toggle{right:12px;bottom:12px;padding:11px 13px}}
 
 </style>
+<style>
+/* Interactive polish: motion, progress and expandable service cards */
+#page-progress{position:fixed;top:0;left:0;height:4px;width:0;background:var(--gold);z-index:20;box-shadow:0 0 12px #f3b54466;transition:width .08s linear}
+.reveal-on-scroll{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s cubic-bezier(.2,.7,.2,1)}
+.reveal-on-scroll.is-visible{opacity:1;transform:translateY(0)}
+.hero h1,.hero .kicker,.hero>p,.hero .btn,.hero .stats{animation:hero-rise .75s both}
+.hero h1{animation-delay:.08s}.hero>p{animation-delay:.18s}.hero .btn{animation-delay:.27s}.hero .stats{animation-delay:.36s}
+@keyframes hero-rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.stat{transition:transform .25s ease,background .25s ease}.stat:hover{transform:translateY(-4px);background:#ffffff16}
+.service-card{position:relative;cursor:pointer;outline:none}
+.service-card:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.service-card .service-detail{transition:opacity .25s ease,transform .25s ease}
+.service-card .service-detail.is-collapsed{display:none}
+.service-expand{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;margin-top:14px;padding:10px 13px;border:1px solid #dfe5eb;border-radius:9px;background:#f8fafc;color:var(--navy);font:inherit;font-size:.86rem;font-weight:800;cursor:pointer;transition:background .2s,border-color .2s,transform .2s}
+.service-expand:hover{background:#fff4d9;border-color:var(--gold);transform:translateY(-1px)}
+.service-expand .expand-icon{display:inline-block;font-size:1.15rem;transition:transform .25s}
+.service-expand[aria-expanded="true"] .expand-icon{transform:rotate(45deg)}
+.service-extra{display:none;margin-top:11px;padding:13px 14px;background:#fff4d9;border-radius:10px;color:#5f5130;font-size:.88rem;line-height:1.6}
+.service-extra.open{display:block;animation:detail-in .25s ease both}
+@keyframes detail-in{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.reveal-on-scroll,.hero h1,.hero .kicker,.hero>p,.hero .btn,.hero .stats{opacity:1;transform:none;animation:none}.service-extra.open{animation:none}}
+</style>
 </head>
 <body>
 <button class="fullscreen-toggle" id="fullscreenToggle" type="button" aria-label="Enter full screen presentation">⛶ Full screen</button>
@@ -308,4 +330,26 @@ a:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:4
 </section>
 <section class="section" id="sources"><div class="eyebrow">References</div><h2>Sources used</h2><p class="lead">Check these sources before presenting and include them on your reference slide.</p><ol><li><a href="https://nedco.gov.tt/fi/about-nedco" target="_blank" rel="noopener">NEDCO – About NEDCO</a> (background, establishment and mandate).</li><li><a href="https://nedco.gov.tt/fi/financing-loans" target="_blank" rel="noopener">NEDCO – Financing / Loans</a> (financing and eligibility).</li><li><a href="https://nedco.gov.tt/web/nedco/contact-us" target="_blank" rel="noopener">NEDCO – Contact Us</a> (branches and contact details).</li><li><a href="https://ttconnect.gov.tt/nedco/" target="_blank" rel="noopener">TTconnect – NEDCO</a> (government service overview).</li><li><a href="https://sme.finance.gov.tt/support-services/?agency=All&type=Non-Financial" target="_blank" rel="noopener">Ministry of Finance – SME Support Services</a> (SME support information).</li></ol></section>
 </main><footer><strong>NEDCO | CAPE Entrepreneurship</strong><br>Supporting, sustaining and developing micro and small enterprises.<br><span class="small">Group presentation website • Trinidad and Tobago</span><div class="team-footer"><h3>Presentation Team</h3><div class="team-list"><div class="team-member developer"><strong><span class="crowned-s">S</span>hamar Bogle</strong><span>Website Developer</span></div><div class="team-member"><strong>Lerone Bernard</strong><span>Information Provider / Group Member</span></div><div class="team-member"><strong>Melloney Stevens</strong><span>Information Provider / Group Member</span></div><div class="team-member"><strong>Wayde Lindsay</strong><span>Information Provider / Group Member</span></div><div class="team-member"><strong>Tory-Lee Brady</strong><span>Information Provider / Group Member</span></div></div></div></footer>
+
+<script>
+(function(){
+  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const progress=document.createElement('div');progress.id='page-progress';progress.setAttribute('aria-hidden','true');document.body.prepend(progress);
+  function updateProgress(){const max=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(max>0?Math.min(100,window.scrollY/max*100):0)+'%'}
+  updateProgress();window.addEventListener('scroll',updateProgress,{passive:true});window.addEventListener('resize',updateProgress);
+  const sections=[...document.querySelectorAll('main .section')];
+  sections.forEach(section=>{const targets=[...section.children].filter(el=>!el.classList.contains('eyebrow'));targets.forEach(el=>el.classList.add('reveal-on-scroll'))});
+  if(!reduced&&'IntersectionObserver'in window){const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target)}}),{threshold:.08,rootMargin:'0px 0px -35px 0px'});document.querySelectorAll('.reveal-on-scroll').forEach(el=>observer.observe(el))}else{document.querySelectorAll('.reveal-on-scroll').forEach(el=>el.classList.add('is-visible'))}
+  document.querySelectorAll('.service-card').forEach((card,index)=>{
+    const title=card.querySelector('h3');const existing=card.querySelector('.service-detail');if(existing)existing.classList.add('is-collapsed');
+    const button=document.createElement('button');button.type='button';button.className='service-expand';button.setAttribute('aria-expanded','false');button.innerHTML='<span>Explore details</span><span class="expand-icon" aria-hidden="true">+</span>';
+    const extra=document.createElement('div');extra.className='service-extra';extra.id='service-extra-'+index;extra.setAttribute('aria-hidden','true');
+    const summary=card.querySelector('p');extra.textContent=(summary?summary.textContent.trim()+' ':'')+'Programme details, eligibility and availability may vary; confirm current information with NEDCO.';
+    button.setAttribute('aria-controls',extra.id);
+    button.addEventListener('click',()=>{const open=button.getAttribute('aria-expanded')!=='true';button.setAttribute('aria-expanded',String(open));button.querySelector('span').textContent=open?'Hide details':'Explore details';extra.classList.toggle('open',open);extra.setAttribute('aria-hidden',String(!open));if(existing)existing.classList.toggle('is-collapsed',!open)});
+    card.append(button,extra);
+  });
+})();
+</script>
+
 </body></html>
